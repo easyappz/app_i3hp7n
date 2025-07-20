@@ -4,7 +4,13 @@ import ErrorBoundary from './ErrorBoundary';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
+import Feed from './pages/Feed';
+import Profile from './pages/Profile';
+import Search from './pages/Search';
+import Messages from './pages/Messages';
+import Chat from './pages/Chat';
 import AuthGuard from './components/AuthGuard';
+import ProtectedLayout from './components/ProtectedLayout';
 import './App.css';
 
 function App() {
@@ -15,6 +21,13 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<AuthGuard><Home /></AuthGuard>} />
+          <Route element={<AuthGuard><ProtectedLayout /></AuthGuard>}>
+            <Route path="/feed" element={<Feed />} />
+            <Route path="/profile/:id" element={<Profile />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/messages" element={<Messages />} />
+            <Route path="/messages/:userId" element={<Chat />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </ErrorBoundary>
