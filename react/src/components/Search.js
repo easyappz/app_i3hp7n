@@ -26,13 +26,15 @@ const Search = () => {
         placeholder="Введите имя или email"
         sx={{ mb: 2 }}
       />
-      {isLoading && <CircularProgress />}
-      {error && <Typography color="error">Ошибка поиска</Typography>}
+      {isLoading && <CircularProgress sx={{ display: 'block', mx: 'auto' }} />}
+      {error && <Typography color="error" sx={{ textAlign: 'center' }}>Ошибка поиска</Typography>}
       <List>
         {(users || []).map((user) => (
           <ListItem key={user._id} button component="a" href={`/profile/${user._id}`}>
             <ListItemAvatar>
-              <Avatar />
+              <Avatar sx={{ bgcolor: 'primary.main' }}>
+                {user.username[0].toUpperCase()}
+              </Avatar>
             </ListItemAvatar>
             <ListItemText primary={user.username} secondary={user.email} />
           </ListItem>

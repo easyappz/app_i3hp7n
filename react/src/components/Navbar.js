@@ -62,7 +62,7 @@ const Navbar = () => {
           />
         </Search>
         <div style={{ flexGrow: 1 }} />
-        <IconButton component={Link} to="/feed" color="inherit">
+        <IconButton component={Link} to="/" color="inherit">
           <HomeIcon />
         </IconButton>
         <IconButton component={Link} to="/search" color="inherit">

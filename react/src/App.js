@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ErrorBoundary from './ErrorBoundary';
 import Login from './components/Login';
 import Register from './components/Register';
-import Home from './pages/Home';
 import Feed from './components/Feed';
 import Profile from './components/Profile';
 import Search from './components/Search';
@@ -20,9 +19,8 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/" element={<AuthGuard><Home /></AuthGuard>} />
           <Route element={<AuthGuard><ProtectedLayout /></AuthGuard>}>
-            <Route path="/feed" element={<Feed />} />
+            <Route index element={<Feed />} />
             <Route path="/profile/:id" element={<Profile />} />
             <Route path="/search" element={<Search />} />
             <Route path="/messages" element={<Messages />} />
