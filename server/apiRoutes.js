@@ -11,7 +11,7 @@ const authMiddleware = require('./middleware/auth');
 const router = express.Router();
 
 // Public routes
-router.use('/auth', authRoutes);
+router.use(authRoutes);
 
 // Protected routes
 router.use('/users', authMiddleware, userRoutes);

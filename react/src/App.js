@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ErrorBoundary from './ErrorBoundary';
-import Login from './pages/Login';
-import Register from './pages/Register';
+import Login from './components/Login';
+import Register from './components/Register';
 import Home from './pages/Home';
 import Feed from './pages/Feed';
-import Profile from './pages/Profile';
+import Profile from './components/Profile';
 import Search from './pages/Search';
 import Messages from './pages/Messages';
 import Chat from './pages/Chat';
