@@ -1,11 +1,12 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const Message = require('../models/Message');
-const authMiddleware = require('../middlewares/auth');
+const Dialog = require('../models/Dialog');
 
 const router = express.Router();
 
 // GET /api/messages/:userId
-router.get('/:userId', authMiddleware, async (req, res) => {
+router.get('/:userId', async (req, res) => {
   try {
     const messages = await Message.find({
       $or: [
@@ -20,11 +21,24 @@ router.get('/:userId', authMiddleware, async (req, res) => {
 });
 
 // POST /api/messages
-router.post('/', authMiddleware, async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const { to, content } = req.body;
     const message = new Message({ from: req.user.userId, to, content });
     await message.save();
+
+    // Update or create dialog
+    const participantIds = [req.user.userId.toString(), to.toString()]
+      .sort()
+      .map(id => mongoose.Types.ObjectId(id));
+    let dialog = await Dialog.findOne({ participants: participantIds });
+    if (!dialog) {
+      dialog = new Dialog({ participants: participantIds });
+    }
+    dialog.lastMessage = message._id;
+    dialog.updatedAt = new Date();
+    await dialog.save();
+
     res.status(201).json(message);
   } catch (err) {
     res.status(500).json({ message: 'Server error' });

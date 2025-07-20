@@ -4,6 +4,7 @@ const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
 const postRoutes = require('./routes/posts');
 const messageRoutes = require('./routes/messages');
+const dialogRoutes = require('./routes/dialogs');
 const profileRoutes = require('./routes/profile');
 const authMiddleware = require('./middleware/auth');
 
@@ -16,6 +17,7 @@ router.use('/auth', authRoutes);
 router.use('/users', authMiddleware, userRoutes);
 router.use('/posts', authMiddleware, postRoutes);
 router.use('/messages', authMiddleware, messageRoutes);
+router.use('/dialogs', authMiddleware, dialogRoutes);
 router.use('/profile', authMiddleware, profileRoutes);
 
 // Legacy routes can be kept or removed as needed
