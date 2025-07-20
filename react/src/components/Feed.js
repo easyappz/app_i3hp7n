@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { instance } from '../api/axios';
-import { Box, Card, CardContent, Typography, InputBase, Button, Avatar, Divider, CircularProgress, IconButton } from '@mui/material';
+import { Box, Card, CardContent, Typography, InputBase, Button, Avatar, Divider, CircularProgress, IconButton, Paper } from '@mui/material';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import CommentIcon from '@mui/icons-material/Comment';
 import ShareIcon from '@mui/icons-material/Share';
@@ -48,58 +48,51 @@ const Feed = () => {
   if (postsError || userError) return <Typography color="error" sx={{ textAlign: 'center', mt: 4 }}>Ошибка загрузки данных</Typography>;
 
   return (
-    <Box sx={{ maxWidth: 600, mx: 'auto', mt: 4 }}>
-      <Card sx={{ mb: 4 }}>
+    <Box sx={{ maxWidth: 600, mx: 'auto', mt: 4, mb: 4 }}>
+      <Paper elevation={3} sx={{ mb: 4, borderRadius: 2 }}>
         <CardContent>
+          <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold' }}>Создать публикацию</Typography>
           <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-            <Avatar sx={{ bgcolor: 'primary.main', mr: 2 }}>
+            <Avatar sx={{ bgcolor: 'primary.main', mr: 2, width: 40, height: 40 }}>
               {currentUser.username[0].toUpperCase()}
             </Avatar>
             <InputBase
-              sx={{ flex: 1, bgcolor: '#f0f2f5', p: 1.5, borderRadius: 4, minHeight: 40 }}
+              sx={{ flex: 1, bgcolor: '#f0f2f5', p: 1.5, borderRadius: 4, minHeight: 50, fontSize: '1.1rem' }}
               multiline
               placeholder={`Что у вас нового, ${currentUser.username}?`}
               value={content}
               onChange={(e) => setContent(e.target.value)}
             />
           </Box>
-          <Button variant="contained" fullWidth onClick={handleSubmit} disabled={mutation.isPending} sx={{ mt: 2 }}>
+          <Divider sx={{ my: 2 }} />
+          <Button variant="contained" fullWidth onClick={handleSubmit} disabled={mutation.isPending} sx={{ borderRadius: 20, textTransform: 'none' }}>
             Опубликовать
           </Button>
         </CardContent>
-      </Card>
+      </Paper>
       {posts.map((post) => (
-        <Card key={post._id} sx={{ mb: 4 }}>
+        <Paper key={post._id} elevation={3} sx={{ mb: 4, borderRadius: 2 }}>
           <CardContent>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-              <Avatar sx={{ bgcolor: 'primary.main', mr: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <Avatar sx={{ bgcolor: 'primary.main', mr: 2, width: 40, height: 40 }}>
                 {post.userId.username[0].toUpperCase()}
               </Avatar>
               <Box>
-                <Typography variant="subtitle1">{post.userId.username}</Typography>
+                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{post.userId.username}</Typography>
                 <Typography variant="caption" color="text.secondary">
                   {formatRelative(new Date(post.createdAt), new Date(), { locale: ru })}
                 </Typography>
               </Box>
             </Box>
-            <Typography variant="body1" sx={{ mb: 2 }}>{post.content}</Typography>
+            <Typography variant="body1" sx={{ mb: 2, fontSize: '1rem' }}>{post.content}</Typography>
             <Divider sx={{ mb: 1 }} />
-            <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <IconButton><ThumbUpIcon /></IconButton>
-                <Typography variant="body2">Нравится</Typography>
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <IconButton><CommentIcon /></IconButton>
-                <Typography variant="body2">Комментировать</Typography>
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <IconButton><ShareIcon /></IconButton>
-                <Typography variant="body2">Поделиться</Typography>
-              </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'space-around', pt: 1 }}>
+              <IconButton color="primary"><ThumbUpIcon /></IconButton>
+              <IconButton color="primary"><CommentIcon /></IconButton>
+              <IconButton color="primary"><ShareIcon /></IconButton>
             </Box>
           </CardContent>
-        </Card>
+        </Paper>
       ))}
     </Box>
   );
